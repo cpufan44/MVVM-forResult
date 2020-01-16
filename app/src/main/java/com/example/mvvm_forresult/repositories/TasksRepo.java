@@ -43,29 +43,6 @@ public class TasksRepo {
 
     public void setTasks() {
 
-        new AsyncTask<Void, Void, Void>() {
 
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-
-            }
-
-            @Override
-            protected Void doInBackground(Void... voids) {
-                List<TaskModel> tasksList = new ArrayList<>();
-                tasksList.add(new TaskModel("New task", "2020-01-01"));
-                tasksList.add(new TaskModel("New task", "2020-01-01"));
-                tasksList.add(new TaskModel("New task", "2020-01-01"));
-                tasksList.add(new TaskModel("New task", "2020-01-01"));
-                tasksList.add(new TaskModel("New task", "2020-01-01"));
-
-                for (TaskModel task : tasksList) {
-                    MainActivity.mAppDb.tasksDao().insert(task);
-                }
-                return null;
-            }
-
-        }.execute();
     }
 }

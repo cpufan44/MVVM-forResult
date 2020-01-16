@@ -19,6 +19,8 @@ import com.example.mvvm_forresult.models.TaskModel;
 import com.example.mvvm_forresult.viewmodels.TaskViewModel;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddTaskActivity extends AppCompatActivity {
 
@@ -42,15 +44,23 @@ public class AddTaskActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String localDate = mDate.getText().toString().trim();
                 String desc = mDescription.getText().toString().trim();
-                final TaskModel taskModel1 = new TaskModel(desc, localDate);
-                Handler uiHandler = new Handler(Looper.getMainLooper());
+                TaskModel taskModel1 = new TaskModel(desc, localDate);
 
-                uiHandler.post(new Runnable() {
+                new AsyncTask<Void, Void, Void>() {
+
                     @Override
-                    public void run() {
-//                        MainActivity.mAppDb.tasksDao().insert(taskModel1);
+                    protected Void doInBackground(Void... voids) {
+                        List<TaskModel> tasksList = new ArrayList<>();
+                        tasksList.add(taskModel1);
+
+                        for (TaskModel task : tasksList) {
+                            MainActivity.mAppDb.tasksDao().insert(task);
+                        }
+                        return null;
                     }
-                });
+
+                }.execute();
+
 
 
                 Intent intent = new Intent(AddTaskActivity.this, MainActivity.class);
