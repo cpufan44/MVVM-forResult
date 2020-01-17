@@ -46,7 +46,7 @@ import java.util.List;
 public class AddTaskActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     private EditText mDescription;
-    private Button mAddTask;
+    private Button mAddTask, mNotification;
     private Button mDate;
     private TaskViewModel mModel;
     int day, month, year, hour, minute;
@@ -57,7 +57,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
     private PendingIntent operation;
     private final String CHANNEL_ID = "tasks_notifications";
     private final int NOTIFICATION_ID = 001;
-
+    private Intent intent1;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +66,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         mDate = findViewById(R.id.date_input);
         mAddTask = findViewById(R.id.add_task_btn);
         date = LocalDateTime.now();
+        mNotification = findViewById(R.id.btn_notify);
 
         mModel = ViewModelProviders.of(this).get(TaskViewModel.class);
 
@@ -75,11 +76,11 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         IntentFilter filter = new IntentFilter("ALARM_ACTION");
         registerReceiver(receiver, filter);
 
-        Intent intent1 = new Intent("ALARM_ACTION");
-        intent1.putExtra("param", "My scheduled action");
-        operation = PendingIntent.getBroadcast(this, 0, intent1, 0);
-        // I choose 3s after the launch of my application
+        intent1 = new Intent("ALARM_ACTION");
+        intent1.putExtra("param", "Your notification");
 
+
+        operation = PendingIntent.getBroadcast(this, 0, intent1, 0);
 
         mDate.setOnClickListener(v -> {
             Calendar c = Calendar.getInstance();
@@ -130,21 +131,25 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
             }
         });
 
+        mNotification.setOnClickListener(v -> {
+            Notification builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                    .setSmallIcon(R.drawable.common_google_signin_btn_icon_light)
+                    .setContentTitle("You have task to do")
+                    .setContentText("my not")
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                    .setAutoCancel(true)
+                    .setOnlyAlertOnce(true)
+                    .setStyle(new NotificationCompat.BigTextStyle()
+                            .bigText("Much longer text that cannot fit one line..."))
+                    .build();
 
-    }
+            createNotificationChannel();
+            NotificationManagerCompat notificationManager =  NotificationManagerCompat.from(this);
+//            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.notify(NOTIFICATION_ID,builder);
 
-    public void displayNotification(View view, String description){
-        Notification builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.common_google_signin_btn_icon_light)
-                .setContentTitle("You have task to do")
-                .setContentText(""+description)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .build();
-
-        createNotificationChannel();
-
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(NOTIFICATION_ID,builder);
+        });
     }
 
     private void createNotificationChannel() {
