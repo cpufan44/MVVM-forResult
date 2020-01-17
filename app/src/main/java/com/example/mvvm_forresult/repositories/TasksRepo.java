@@ -33,16 +33,7 @@ public class TasksRepo {
     }
 
     public LiveData<List<TaskModel>> getTasks() {
-        setTasks();
-//        MutableLiveData<List<TaskModel>> data = new MutableLiveData<>();
-//        data.setValue(dataset);
 
         return MainActivity.mAppDb.tasksDao().getAll();
-    }
-
-
-    public void setTasks() {
-
-
     }
 }

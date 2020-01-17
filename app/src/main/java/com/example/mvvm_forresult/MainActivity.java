@@ -1,7 +1,10 @@
 package com.example.mvvm_forresult;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
@@ -11,11 +14,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerAdapter mAdapter;
     public static AppDatabase mAppDb;
 
+
     private List<TaskModel> tasksList;
 
     @Override
@@ -52,6 +63,27 @@ public class MainActivity extends AppCompatActivity {
         mAppDb = Room.databaseBuilder(MainActivity.this, AppDatabase.class, "tasks-database").build();
 
 
+
+        mRecycler.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+
+                Toast.makeText(MainActivity.this, "Touched", Toast.LENGTH_LONG).show();
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
+
+
         mModel = ViewModelProviders.of(this).get(TaskViewModel.class);
 
         tasksList = new ArrayList<>();
@@ -62,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mModel.getmTasks().observe(this, taskModels -> {
-            Toast.makeText(this,"loaded",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "loaded", Toast.LENGTH_LONG).show();
             tasksList.clear();
             tasksList.addAll(taskModels);
             mAdapter.notifyDataSetChanged();
@@ -86,9 +118,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
     public void initRecyclerView() {
 
-        mAdapter = new RecyclerAdapter(tasksList, MainActivity.this);
+        mAdapter = new RecyclerAdapter(MainActivity.this, tasksList, MainActivity.this);
         RecyclerView.LayoutManager linear = new LinearLayoutManager(MainActivity.this);
         mRecycler.setLayoutManager(linear);
         mRecycler.setAdapter(mAdapter);

@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    android:layout_marginTop="2dp"
+    android:id="@+id/relative_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:padding="15dp"
-    android:background="@color/colorBackground"
+    android:background="@drawable/boarder"
     android:layout_height="wrap_content">
 
     <TextView
@@ -22,10 +25,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Date"
-        android:textSize="20sp"
+        android:textSize="10sp"
         android:layout_marginLeft="330dp"
         ></TextView>
 
-
+    <Button
+        android:id="@+id/btn_delete"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete"
+        android:background="@color/colorRed"
+        android:layout_marginLeft="160dp"
+        android:layout_marginTop="110dp"
+        ></Button>
 
 </RelativeLayout>

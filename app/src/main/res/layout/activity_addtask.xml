@@ -28,16 +28,16 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"></EditText>
 
-    <EditText
+    <Button
         android:id="@+id/date_input"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="200dp"
-        android:hint="Input date"
-        android:textColorHint="@color/colorWhite"
+        android:text="Pick date"
+        android:textColor="@color/colorBackground"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></EditText>
+        app:layout_constraintTop_toTopOf="parent"></Button>
 
     <Button
         android:id="@+id/add_task_btn"
@@ -45,8 +45,19 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="270dp"
         android:text="Add"
+        android:textColor="@color/colorBackground"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        ></Button>
+        app:layout_constraintTop_toTopOf="parent"></Button>
+
+    <Button
+        android:onClick="displayNotification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="350dp"
+        android:text="Show NOTIFICATION"
+        android:textColor="@color/colorBackground"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></Button>
 </androidx.constraintlayout.widget.ConstraintLayout>
