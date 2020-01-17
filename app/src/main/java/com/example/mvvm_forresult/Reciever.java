@@ -15,7 +15,7 @@ import androidx.core.app.NotificationCompat;
 
 public class Reciever extends BroadcastReceiver {
     private final String CHANNEL_ID = "tasks_notifications";
-    private final int NOTIFICATION_ID = 001;
+    private final int NOTIFICATION_ID = 002;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -31,8 +31,9 @@ public class Reciever extends BroadcastReceiver {
                 .setSmallIcon(R.drawable.common_google_signin_btn_icon_light)
                 .setContentTitle("You have task to do")
                 .setContentText(description)
-                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+
                 .build();
 
         createNotificationChannel(context);

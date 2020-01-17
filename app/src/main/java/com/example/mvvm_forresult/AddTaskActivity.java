@@ -58,6 +58,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
     private final String CHANNEL_ID = "tasks_notifications";
     private final int NOTIFICATION_ID = 001;
     private Intent intent1;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,11 +119,9 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                     @Override
                     protected void onPostExecute(Void aVoid) {
                         super.onPostExecute(aVoid);
-                        if(localDate == null){
+                        if (localDate == null) {
                             Toast.makeText(AddTaskActivity.this, "Please choose date", Toast.LENGTH_SHORT).show();
-                        }
-                        else
-                        {
+                        } else {
                             Intent intent = new Intent(AddTaskActivity.this, MainActivity.class);
                             startActivity(intent);
                         }
@@ -136,7 +135,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                     .setSmallIcon(R.drawable.common_google_signin_btn_icon_light)
                     .setContentTitle("You have task to do")
                     .setContentText("my not")
-                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setPriority(NotificationCompat.PRIORITY_LOW)
                     .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                     .setAutoCancel(true)
                     .setOnlyAlertOnce(true)
@@ -145,9 +144,9 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                     .build();
 
             createNotificationChannel();
-            NotificationManagerCompat notificationManager =  NotificationManagerCompat.from(this);
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 //            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.notify(NOTIFICATION_ID,builder);
+            notificationManager.notify(NOTIFICATION_ID, builder);
 
         });
     }
@@ -190,7 +189,6 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         minuteFinal = minute;
 
         localDate = dayFinal + "/" + monthFinal + "/" + yearFinal + "-" + hourFinal + ":" + minuteFinal;
-
 
 
         alarms.set(AlarmManager.RTC_WAKEUP, date.getLong(ChronoField.NANO_OF_SECOND), operation);
